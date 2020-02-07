@@ -4,13 +4,18 @@ module.exports = {
   questions: [
     {
       type: "input",
-      name: "user",
-      message: "User: "
+      name: "source_app",
+      message: "Source App: (default = nmbrs) "
     },
     {
       type: "input",
-      name: "pass",
-      message: "Pass: "
+      name: "group",
+      message: "Group: "
+    },
+    {
+      type: "input",
+      name: "controller",
+      message: "Controller: "
     }
   ]
 };
