@@ -12,7 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.5.5",
+    "axios": "^0.19.2",
     "dotenv": "^8.2.0",
-    "inquirer": "^7.0.4"
+    "inquirer": "^7.0.4",
+    "xml2json": "^0.12.0"
   }
 }
