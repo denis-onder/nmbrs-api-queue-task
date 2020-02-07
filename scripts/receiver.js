@@ -2,6 +2,12 @@ const ampq = require("amqplib/callback_api");
 const { queue } = require("../config");
 const parser = require("../utils/parseQuery");
 const consumer = require("../consumer");
+const path = require("path");
+const fs = require("fs");
+
+const output_path = path.join(__dirname, "../output");
+
+if (!fs.existsSync(output_path)) fs.mkdirSync(output_path);
 
 ampq.connect("amqp://localhost", (err, connection) => {
   if (err) throw err;

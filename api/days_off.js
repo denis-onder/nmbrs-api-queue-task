@@ -1,5 +1,9 @@
 const axios = require("axios");
 const xml_parser = require("xml2json");
+const path = require("path");
+const fs = require("fs");
+
+const output_path = path.join(__dirname, "../output");
 
 const getCompanyID = async (user, pass) => {
   const options = {
@@ -45,16 +49,65 @@ const getAbscenseData = async (user, pass, employeeID) => {
     headers: options.headers
   });
   const json = await xml_parser.toJson(res.data);
-  console.log(
-    JSON.parse(json)["soap:Envelope"]["soap:Body"].Absence_GetListResponse
-      .Absence_GetListResult.Absence
-  );
+  return JSON.parse(json)["soap:Envelope"]["soap:Body"].Absence_GetListResponse
+    .Absence_GetListResult.Absence;
 };
 
-module.exports = async ({ user, pass }) => {
+const calcTimeDifference = (start, end) => {
+  const startTime = new Date(start);
+  const endTime = new Date(end);
+  const difference = endTime.getTime() - startTime.getTime();
+  return Math.round(difference / 60000);
+};
+
+const formOutput = (group_id, source_app, employee_id, absences) => {
+  let calendar = [];
+  if (Array.isArray(absences)) {
+    calendar = absences.map(absence => {
+      if (absence.Percentate !== 100) {
+        return {
+          date: absence.RegistrationStartDate,
+          data: {
+            duration_minutes: calcTimeDifference(
+              absence.RegistrationStartDate,
+              absence.RegistrationEndDate
+            ),
+            day_off_name: absence.Dossier,
+            internal_code: absence.AbsenceId
+          }
+        };
+      }
+    });
+  }
+  const payload = JSON.stringify(
+    {
+      group_id,
+      source_app,
+      source_app_internal_id: employee_id,
+      calendar
+    },
+    null,
+    2
+  );
+  writeOutput(payload);
+};
+
+const writeOutput = json => {
+  const filename = `file-${Date.now()}.json`;
+  fs.writeFile(filename, json, "utf-8", err => {
+    if (err) throw err;
+    console.log("Writing output...");
+  });
+};
+
+module.exports = async ({ user, pass, group, source_app }) => {
   const companyID = await getCompanyID(user, pass);
   console.log(`Company ID: ${companyID}`);
   const employees = await getAllActiveEmployees(user, pass, companyID);
   console.log(`Number of employeed: ${employees.length}`);
-  getAbscenseData(user, pass, employees[0].Id);
+  for (const employee of employees) {
+    const absenceData = await getAbscenseData(user, pass, employee.Id);
+    formOutput(group, source_app, employee.Id, absenceData);
+  }
+  console.log("Request handling complete.");
 };
