@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 module.exports = {
   username: process.env.USERNAME,
   pass: process.env.API_KEY,
