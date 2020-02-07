@@ -12,12 +12,12 @@ module.exports = {
     {
       type: "input",
       name: "group",
-      message: "Group: "
+      message: "Group: (default = 1234) "
     },
     {
       type: "input",
       name: "controller",
-      message: "Controller: "
+      message: "Controller: (default = importDaysoff) "
     }
   ]
 };
