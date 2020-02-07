@@ -20,3 +20,8 @@ USERNAME= <API account email>
 API_KEY= <API token>
 QUEUE= <Queue name>
 ```
+
+### Todos: 
+
+- [] Fix the date difference calculation function
+- [] Clear out messages that have been completed from the queue
