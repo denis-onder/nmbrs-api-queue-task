@@ -12,7 +12,8 @@ ampq.connect("amqp://localhost", (err, connection) => {
     channel.assertQueue(queue);
     channel.consume(queue, msg => {
       const query = parser(msg.content.toString());
-      console.log(JSON.parse(query));
+      const parsed = JSON.parse(query);
+      console.log(parsed);
     });
   });
 });
