@@ -23,5 +23,7 @@ QUEUE= <Queue name>
 
 ### Todos: 
 
-- [] Fix the date difference calculation function
-- [] Clear out messages that have been completed from the queue
+- [ ] Fix the date difference calculation function
+- [x] Clear out messages that have been completed from the queue
+- [x] Set the output directory
+- [x] Change file naming convention of the produced JSON files

@@ -5,7 +5,7 @@ module.exports = ({ source_app, group, controller }) => {
   'source_app' => '${source_app}',
   'user' => '${username}',
   'pass' => '${pass}',	
-  'group' => ${group},
+  'group' => '${group}',
   'controller' => '${controller}'
 }`;
 };

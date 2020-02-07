@@ -7,7 +7,9 @@ module.exports = (query, id) => {
       days_off(query);
       break;
     default:
-      console.log("This controller method currently is not supported.");
+      console.log(
+        `${query.controller} is not a currently supported controller method.`
+      );
       break;
   }
 };

@@ -79,21 +79,20 @@ const formOutput = (group_id, source_app, employee_id, absences) => {
       }
     });
   }
-  const payload = JSON.stringify(
-    {
-      group_id,
-      source_app,
-      source_app_internal_id: employee_id,
-      calendar
-    },
-    null,
-    2
-  );
+  const payload = {
+    group_id,
+    source_app,
+    source_app_internal_id: employee_id,
+    calendar
+  };
   writeOutput(payload);
 };
 
-const writeOutput = json => {
-  const filename = `file-${Date.now()}.json`;
+const writeOutput = data => {
+  const json = JSON.stringify(data, null, 2);
+  const filename =
+    __dirname +
+    `/../output/case-${data.group_id}-${data.source_app_internal_id}.json`;
   fs.writeFile(filename, json, "utf-8", err => {
     if (err) throw err;
     console.log("Writing output...");
