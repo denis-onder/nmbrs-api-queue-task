@@ -66,12 +66,9 @@ const formOutput = (group_id, source_app, employee_id, absences) => {
     calendar = absences.map(absence => {
       if (absence.Percentate !== 100) {
         return {
-          date: absence.RegistrationStartDate,
+          date: absence.Start,
           data: {
-            duration_minutes: calcTimeDifference(
-              absence.RegistrationStartDate,
-              absence.RegistrationEndDate
-            ),
+            duration_minutes: calcTimeDifference(absence.Start, absence.End),
             day_off_name: absence.Dossier,
             internal_code: absence.AbsenceId
           }
@@ -95,7 +92,6 @@ const writeOutput = data => {
     `/../output/case-${data.group_id}-${data.source_app_internal_id}.json`;
   fs.writeFile(filename, json, "utf-8", err => {
     if (err) throw err;
-    console.log("Writing output...");
   });
 };
 
@@ -104,9 +100,9 @@ module.exports = async ({ user, pass, group, source_app }) => {
   console.log(`Company ID: ${companyID}`);
   const employees = await getAllActiveEmployees(user, pass, companyID);
   console.log(`Number of employeed: ${employees.length}`);
-  for (const employee of employees) {
+  await employees.forEach(async (employee, i) => {
     const absenceData = await getAbscenseData(user, pass, employee.Id);
     formOutput(group, source_app, employee.Id, absenceData);
-  }
+  });
   console.log("Request handling complete.");
 };
