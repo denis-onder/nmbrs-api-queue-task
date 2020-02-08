@@ -1,8 +1,6 @@
 /** CONCEPT:
- *
  * Take the produced query, and turn in into a object.
  * This will make the process of building queries to the API easier.
- *
  */
 
 /** EXAMPLE QUERY:

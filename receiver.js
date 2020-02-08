@@ -18,6 +18,7 @@ ampq.connect("amqp://localhost", (err, connection) => {
     );
     channel.assertQueue(queue);
     channel.consume(queue, msg => {
+      // Parse the query, and pass it to the consumer
       const query = parser(msg.content.toString());
       console.log(query);
       const parsed = JSON.parse(query);

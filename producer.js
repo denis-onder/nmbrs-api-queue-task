@@ -13,7 +13,11 @@ module.exports = msg => {
       console.log(
         `The message ${isSent ? "has" : "has not"} been sent to the queue.`
       );
-      // Workaround for safely closing the producer so the input gets passed to the receiver
+      /**
+       * This timeout is sort of necessary for safely
+       * exiting the producer. If this timeout is not present,
+       * the input provided will not be passed to the consumer.
+       */
       setTimeout(() => process.exit(), 100);
     });
   });

@@ -1,6 +1,5 @@
 const axios = require("axios");
 const xml_parser = require("xml2json");
-const fs = require("fs");
 
 module.exports = async (user, pass) => {
   const options = {
