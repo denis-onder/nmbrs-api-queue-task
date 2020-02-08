@@ -1,11 +1,11 @@
 const ampq = require("amqplib/callback_api");
-const { queue } = require("../config");
-const parser = require("../utils/parseQuery");
-const consumer = require("../consumer");
+const { queue } = require("./config");
+const parser = require("./utils/parseQuery");
+const consumer = require("./controllers");
 const path = require("path");
 const fs = require("fs");
 
-const output_path = path.join(__dirname, "../output");
+const output_path = path.join(__dirname, "./output");
 
 if (!fs.existsSync(output_path)) fs.mkdirSync(output_path);
 
@@ -14,7 +14,7 @@ ampq.connect("amqp://localhost", (err, connection) => {
   connection.createChannel((err, channel) => {
     if (err) throw err;
     console.log(
-      `Listening to the queue ${queue}...\nRun 'npm run producer' to send a message to the broker!`
+      `Listening to queue: ${queue}...\nRun 'npm run producer' to send a message to the broker!`
     );
     channel.assertQueue(queue);
     channel.consume(queue, msg => {

@@ -2,7 +2,7 @@
   "name": "rabbitmq-tutorial",
   "version": "1.0.0",
   "description": "",
-  "main": "scripts/receiver.js",
+  "main": "receiver.js",
   "scripts": {
     "start": "node .",
     "producer": "node index.js"
